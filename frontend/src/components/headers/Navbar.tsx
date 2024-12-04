@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { Flex } from "antd";
+import { NavLink } from "react-router-dom";
+import { useAuth } from "../../context/auth-context";
+import { Menu, Typography } from "antd";
+
+const { Title } = Typography;
 
 const navLinks = [
     { name: "Home", route: "/" },
@@ -13,14 +13,23 @@ const navLinks = [
     { name: "ContactUs", route: "/contact-us" },
 ];
 
-
 export const Navbar: React.FC = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [isHome, setIsHome] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     return (
-        <Flex>Navbar</Flex>
+        <nav>
+        <Title>Menorca</Title>
+        {isAuthenticated ? (
+          <Menu mode="horizontal" theme="dark" defaultSelectedKeys={["/"]} style={{ flexGrow: 1, marginLeft: "1rem" }}>
+            {navLinks.map((link) => (
+                 <Menu.Item key={link.route}>
+                 <NavLink to={link.route}>{link.name}</NavLink>
+               </Menu.Item>
+            ))}
+          </Menu>
+        ) : (
+          <Typography.Text style={{ color: "#fff" }}>Please authenticate to access the site.</Typography.Text>
+        )}
+      </nav>
     )
 }
