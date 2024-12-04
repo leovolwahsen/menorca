@@ -26,6 +26,11 @@ export const Home: React.FC = () => {
       if (response.status === 200) {
         localStorage.setItem("isAuthenticated", "true");
         setIsAuthenticated(true);
+
+        setTimeout(() => {
+          setIsAuthenticated(false);
+          localStorage.removeItem("isAuthenticated");
+        }, 60000)
       }
     } catch (err: any) {
       setError(err.response?.data?.error || "An error occurred");
