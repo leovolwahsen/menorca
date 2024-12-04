@@ -2,6 +2,7 @@ import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { connectToDatabase } from "./config/database";
+import { attendeeRouter } from "./api/attendees/routers";
 
 dotenv.config();
 
@@ -17,9 +18,10 @@ connectToDatabase().then(() => {
     console.log("Database connected successfully");
     
     // Register routes
+    app.use("/", attendeeRouter);
 
     app.get("/", (req: Request, res: Response) => {
-        res.send("Welcome to the backend server!");
+        res.send("Welcome to the backend server of menorca!");
     });
 
     // Start server
