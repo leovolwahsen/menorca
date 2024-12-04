@@ -1,6 +1,6 @@
 import express from "express";
 import * as attendeeController from "./controller"
-import { attendeeValidationSchema, validateAttendee } from "../../middleware/validation";
+import { attendeeValidationSchema, validateAttendee } from "./middleware"
 
 export const attendeeRouter = express.Router();
 

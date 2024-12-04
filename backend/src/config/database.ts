@@ -15,6 +15,7 @@ const client = new MongoClient(uri, {
 export let db: Db;
 export let attendeeCollections: Collection;
 export let authenticationCollections: Collection;
+export let contactUsCollections: Collection;
 
 export async function connectToDatabase(): Promise<void> {
     try {
@@ -23,6 +24,7 @@ export async function connectToDatabase(): Promise<void> {
 
         attendeeCollections = db.collection("attendees");
         authenticationCollections = db.collection("authentication");
+        contactUsCollections = db.collection("contactUs");
 
         console.log("Connected to MongoDB and initialised collections");
     } catch(error) {
