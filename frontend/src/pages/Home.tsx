@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Form, Input, Typography, Select, Flex } from "antd";
 import { useAxios } from "../data/useAxios";
 import { FaLock, FaLockOpen } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
+import { PasswordValidationResponse } from "../types/authentication";
+import { AttendeeFormValues } from "../types/attendee";
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -11,42 +13,35 @@ export const Home: React.FC = () => {
   const axiosInstance = useAxios();
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState<boolean>(false);
   const [isUnlocking, setIsUnlocking] = useState<boolean>(false);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const auth = localStorage.getItem("isAuthenticated");
-    if (auth === "true") {
-      setIsAuthenticated(true);
-    }
-  }, []);
+  const { isAuthenticated, setAuthState, userRole } = useAuth();
 
   const handlePasswordSubmit = async () => {
     try {
-      const response = await axiosInstance.post("/validate-password", { password });
+      const response = await axiosInstance.post<PasswordValidationResponse>("/validate-password", { password });
 
       if (response.status === 200) {
         const role = response.data.role;
+        setAuthState(true, role);
         localStorage.setItem("isAuthenticated", "true");
         localStorage.setItem("userRole", role);
         setIsUnlocking(true);
 
-        setTimeout(() => {
-          setIsAuthenticated(true);
-          setIsUnlocking(false);
-          navigate("/");
-          // localStorage.removeItem("isAuthenticated");
-          // localStorage.removeItem("userRole")
-        }, 3000)
+        // This commented out code would be a way to automatically be loged-out after time ended
+        // setTimeout(() => {
+        //   setIsAuthenticated(true);
+        //   setIsUnlocking(false);
+        //   localStorage.removeItem("isAuthenticated");
+        //   localStorage.removeItem("userRole")
+        // }, 3000)
       }
     } catch (err: any) {
       setError(err.response?.data?.error || "An error occurred");
     }
   };
 
-  const handleAttendeeSubmit = async (values: any) => {
+  const handleAttendeeSubmit = async (values: AttendeeFormValues) => {
     try {
       const response = await axiosInstance.post("/new-attendee", values);
       if (response.status === 201) {
@@ -102,7 +97,7 @@ export const Home: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <Title level={3}>Welcome {localStorage.getItem("userRole") === "admin" ? "Admin" : "Visitor"} to the Website!</Title>
+      <Title level={3}>Welcome {userRole === "admin" ? "Admin" : "Visitor"} to the Website!</Title>
       {isFormVisible ? (
         <Form
           layout="vertical"
