@@ -11,7 +11,7 @@ export const Dashboard: React.FC = () => {
   const userRole = localStorage.getItem("userRole");
 
   useEffect(() => {
-    axiosInstance.get("/attendees").then((res) => {
+    axiosInstance.get<IAttendeeFormValues[]>("/attendees").then((res) => {
       setAttendees(res.data);
     }).catch((error) => {
       console.error(error);

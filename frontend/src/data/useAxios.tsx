@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useMemo } from "react";
-import dotenv from "dotenv";
+import dotenv from "dotenv"
 
 dotenv.config();
 
@@ -11,16 +11,16 @@ export const useAxios = () => {
         });
 
         // request Interceptors
-        instance.interceptors.request.use((config) => {
+        instance.interceptors.request.use((config: any) => {
             return config;
-        }, (error) => {
+        }, (error: any) => {
             return Promise.reject(error);
         });
 
         // response Interceptors
-        instance.interceptors.response.use((response) => {
+        instance.interceptors.response.use((response: any) => {
             return response;
-        }, (error) => {
+        }, (error: any) => {
             return Promise.reject(error);
         });
 
