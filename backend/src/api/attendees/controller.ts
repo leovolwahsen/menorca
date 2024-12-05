@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { attendeeCollections } from "../../config/database";
-import { Attendee } from "../../types/attendees";
+import { IAttendee } from "../../types/attendees";
 import { ObjectId } from "mongodb";
 
 export const createAttendee = async (req: Request, res: Response): Promise<void> => {
     try {
-        const newAttendee: Attendee = req.body;
+        const newAttendee: IAttendee = req.body;
         const result = await attendeeCollections.insertOne(newAttendee);
 
         res.status(201).send(result);

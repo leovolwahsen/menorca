@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { contactUsCollections } from "../../config/database";
-import { ContactUs } from "../../types/contactUs"
+import { IContactUs } from "../../types/contactUs"
 
 export const createContactUs = async (req: Request, res: Response): Promise<void> => {
     try {
-        const newContactUsData: ContactUs = req.body;
+        const newContactUsData: IContactUs = req.body;
         const result = await contactUsCollections.updateOne(
             {},
             { $set: newContactUsData },

@@ -3,8 +3,8 @@ import { Button, Form, Input, Typography, Select, Flex } from "antd";
 import { useAxios } from "../data/useAxios";
 import { FaLock, FaLockOpen } from "react-icons/fa";
 import { useAuth } from "../context/auth-context";
-import { PasswordValidationResponse } from "../types/authentication";
-import { AttendeeFormValues } from "../types/attendee";
+import { IPasswordValidationResponse } from "../types/authentication";
+import { IAttendeeFormValues } from "../types/attendee";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,7 +22,7 @@ export const Home: React.FC = () => {
 
   const handlePasswordSubmit = async () => {
     try {
-      const response = await axiosInstance.post<PasswordValidationResponse>("/validate-password", { password });
+      const response = await axiosInstance.post<IPasswordValidationResponse>("/validate-password", { password });
 
       if (response.status === 200) {
         const role = response.data.role;
@@ -45,7 +45,7 @@ export const Home: React.FC = () => {
     }
   };
 
-  const handleAttendeeSubmit = async (values: AttendeeFormValues) => {
+  const handleAttendeeSubmit = async (values: IAttendeeFormValues) => {
     try {
       const response = await axiosInstance.post("/new-attendee", values);
       if (response.status === 201) {

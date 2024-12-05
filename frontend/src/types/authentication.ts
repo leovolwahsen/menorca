@@ -1,15 +1,15 @@
 import { ReactNode } from "react";
 
-export interface AuthProviderProps {
+export interface IAuthProviderProps {
     children: ReactNode;
 }
 
-export interface AuthContextProps {
+export interface IAuthContextProps {
     isAuthenticated: boolean;
     userRole: string | null;
     setAuthState: (auth: boolean, role: string | null) => void;
 }
 
-export interface PasswordValidationResponse {
+export interface IPasswordValidationResponse {
     role: string;
 }
