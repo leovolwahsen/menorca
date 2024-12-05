@@ -11,16 +11,16 @@ export const useAxios = () => {
         });
 
         // request Interceptors
-        instance.interceptors.request.use((config: any) => {
+        instance.interceptors.request.use((config) => {
             return config;
-        }, (error: any) => {
+        }, (error) => {
             return Promise.reject(error);
         });
 
         // response Interceptors
-        instance.interceptors.response.use((response: any) => {
+        instance.interceptors.response.use((response) => {
             return response;
-        }, (error: any) => {
+        }, (error) => {
             return Promise.reject(error);
         });
 

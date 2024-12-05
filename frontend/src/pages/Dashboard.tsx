@@ -16,7 +16,7 @@ export const Dashboard: React.FC = () => {
     }).catch((error) => {
       console.error(error);
     })
-  }, []);
+  }, [axiosInstance]);
 
   if (!userRole) {
     return null

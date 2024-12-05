@@ -15,7 +15,7 @@ export const ContactUs: React.FC = () => {
     }).catch((error) => {
       console.error(error);
     })
-  }, []);
+  }, [axiosInstance]);
 
   return (
     <Flex vertical justify="center" align="center" style={{ width: "99vw" }}>
