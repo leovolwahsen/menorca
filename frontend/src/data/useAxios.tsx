@@ -1,10 +1,13 @@
 import axios from "axios";
 import { useMemo } from "react";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const useAxios = () => {
     const axiosInstance = useMemo(() => {
         const instance = axios.create({
-            baseURL: 'http://localhost:5000'
+            baseURL: `${process.env.VITE_BACKEND_URL}`
         });
 
         // request Interceptors
