@@ -10,7 +10,7 @@ export const ContactUs: React.FC = () => {
   const [contactUs, setContactUs] = useState<IContactUs>();
 
   useEffect(() => {
-    axiosInstance.get("/contact-us").then((res) => {
+    axiosInstance.get<IContactUs>("/contact-us").then((res) => {
       setContactUs(res.data);
     }).catch((error) => {
       console.error(error);
