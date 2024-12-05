@@ -10,6 +10,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const setAuthState = (auth: boolean, role: string | null) => {
     setIsAuthenticated(auth);
     setUserRole(role);
+    // if (auth && role) {
+    //   localStorage.setItem("userRole", role);
+    // } else {
+    //   localStorage.removeItem("userRole");
+    // }
   };
 
   return (

@@ -9,7 +9,7 @@ export const PrimaryLayout: React.FC = () => {
   return (
     <Flex vertical>
       <Navbar />
-      <Flex style={{ width: "100%", padding: "20px", flexGrow: 1 }}>
+      <Flex style={{ width: "100%",flexGrow: 1 }}>
         <Outlet context={{ setIsAuthenticated }} />
       </Flex>
     </Flex>

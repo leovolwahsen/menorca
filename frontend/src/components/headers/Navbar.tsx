@@ -44,13 +44,7 @@ export const Navbar: React.FC = () => {
       {!screens.lg ? (
         <FaBars style={{ fontSize: "24px", cursor: "pointer" }} />
       ) : (
-        <Menu mode="horizontal" theme="light" defaultSelectedKeys={["/"]} items={items} style={{ marginTop: "10px", display: "flex", flexWrap: "wrap" }}>
-          {navLinks.map((link) => (
-            <Menu.Item key={link.route}>
-              <NavLink to={link.route}>{link.name}</NavLink>
-            </Menu.Item>
-          ))}
-        </Menu>
+        <Menu mode="horizontal" theme="light" defaultSelectedKeys={["/"]} items={items} style={{ marginTop: "10px", display: "flex", flexWrap: "wrap" }} />
       )}
     </nav>
   )

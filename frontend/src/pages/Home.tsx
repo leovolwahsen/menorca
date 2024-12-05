@@ -5,6 +5,8 @@ import { FaLock, FaLockOpen } from "react-icons/fa";
 import { useAuth } from "../context/auth-context";
 import { PasswordValidationResponse } from "../types/authentication";
 import { AttendeeFormValues } from "../types/attendee";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -15,6 +17,8 @@ export const Home: React.FC = () => {
   const [error, setError] = useState("");
   const [isUnlocking, setIsUnlocking] = useState<boolean>(false);
   const { isAuthenticated, setAuthState, userRole } = useAuth();
+
+  const [form] = Form.useForm();
 
   const handlePasswordSubmit = async () => {
     try {
@@ -36,6 +40,7 @@ export const Home: React.FC = () => {
         // }, 3000)
       }
     } catch (err: any) {
+      toast.error("Failed to login!")
       setError(err.response?.data?.error || "An error occurred");
     }
   };
@@ -44,17 +49,19 @@ export const Home: React.FC = () => {
     try {
       const response = await axiosInstance.post("/new-attendee", values);
       if (response.status === 201) {
-        alert("Attendee registered successfully!");
+        toast.success("You have registered successfully!", { autoClose: false });
+        form.resetFields();
       }
     } catch (err: any) {
+      toast.error("Failed to register, please check your Input!");
       console.error(err);
-      alert("Failed to register attendee.");
     }
   };
 
   if (!isAuthenticated) {
     return (
       <Flex vertical justify="center" align="center" style={{ width: "100vw", height: "90vh" }}>
+        <ToastContainer />
         <Form
           layout="vertical"
           onFinish={handlePasswordSubmit}
@@ -69,17 +76,24 @@ export const Home: React.FC = () => {
           <Flex vertical align="center" justify="center" gap="5rem" style={{ fontSize: 35, transition: "transform 0.5s, color 0.5s, opacity 0.8s", opacity: isUnlocking ? 0 : 1, width: "100%", height: "30%" }}>
             {isUnlocking ? <FaLockOpen /> : <FaLock />}
           </Flex>
-
+          <Form.Item
+            name="username"
+            label="Username (for autofill compatibility)"
+            initialValue="default-username"
+            style={{ display: "none" }}
+          >
+            <Input type="text" autoComplete="username" />
+          </Form.Item>
           <Form.Item
             label="Password"
             validateStatus={error ? "error" : ""}
             help={error}
-
           >
             <Input.Password
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              autoComplete="current-password"
             />
           </Form.Item>
           <Form.Item>
@@ -94,8 +108,10 @@ export const Home: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
+      <ToastContainer />
       <Title level={3}>Welcome {userRole === "admin" ? "Admin" : "Visitor"} to the Website!</Title>
       <Form
+        form={form}
         layout="vertical"
         onFinish={handleAttendeeSubmit}
         style={{
@@ -105,7 +121,18 @@ export const Home: React.FC = () => {
           borderRadius: 10
         }}
       >
-        <Title level={4}>Register Attendee</Title>
+        <Title level={5}>Please fill out this Form</Title>
+        <Form.Item
+          label="Will Attend"
+          name="willAttend"
+          rules={[{ required: true, message: "Please select an option" }]}
+        >
+          <Select placeholder="Select an option">
+            <Option value="Yes">Yes</Option>
+            <Option value="No">No</Option>
+            <Option value="Still unsure">Still unsure</Option>
+          </Select>
+        </Form.Item>
         <Form.Item
           label="First Name"
           name="firstName"
@@ -127,15 +154,27 @@ export const Home: React.FC = () => {
         >
           <Input placeholder="Email" />
         </Form.Item>
+        <Title level={5}>Companion</Title>
         <Form.Item
-          label="Will Attend"
-          name="willAttend"
-          rules={[{ required: true, message: "Please select an option" }]}
+          label="Companion First Name"
+          name={["companion", "firstName"]}
+        >
+          <Input placeholder="Companion First Name" />
+        </Form.Item>
+        <Form.Item
+          label="Companion Last Name"
+          name={["companion", "lastName"]}
+        >
+          <Input placeholder="Companion Last Name" />
+        </Form.Item>
+        <Form.Item
+          label="We will require a babysitter for the evening?"
+          name={["companion", "requireBabysitter"]}
         >
           <Select placeholder="Select an option">
             <Option value="Yes">Yes</Option>
-            <Option value="No">No</Option>
-            <Option value="Still unsure">Still unsure</Option>
+            <Option value="We will arrange/travel with our own">We will arrange/travel with our own</Option>
+            <Option value="No, we don't require childcare">No, we don't require childcare</Option>
           </Select>
         </Form.Item>
         <Form.Item>
