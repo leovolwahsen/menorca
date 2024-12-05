@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState } from "react";
-import { AuthContextProps, AuthProviderProps } from "../types/authentication";
+import { IAuthContextProps, IAuthProviderProps } from "../types/authentication";
 
-const AuthContext = createContext<AuthContextProps | undefined>(undefined);
+const AuthContext = createContext<IAuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<string | null>(null);
 
@@ -24,7 +24,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-export const useAuth = (): AuthContextProps => {
+export const useAuth = (): IAuthContextProps => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth is not used in AuthProvider")
