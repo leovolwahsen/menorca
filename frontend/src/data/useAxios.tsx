@@ -7,7 +7,7 @@ dotenv.config();
 export const useAxios = () => {
     const axiosInstance = useMemo(() => {
         const instance = axios.create({
-            baseURL: `${process.env.VITE_BACKEND_URL}`
+            baseURL: "https://menorca-backend.onrender.com/"
         });
 
         // request Interceptors
