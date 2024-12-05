@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/auth-context";
-import { Menu, MenuProps, Typography } from "antd";
-import { FaHome, FaClipboardList, FaCar, FaHotel, FaGrinStars, FaUser, FaTable } from "react-icons/fa";
+import { Grid, Menu, MenuProps, Typography } from "antd";
+import { FaHome, FaClipboardList, FaCar, FaHotel, FaGrinStars, FaUser, FaTable, FaBars } from "react-icons/fa";
 
 const { Title } = Typography;
+const { useBreakpoint } = Grid
 type MenuItem = Required<MenuProps>['items'][number];
 
 export const Navbar: React.FC = () => {
@@ -29,21 +30,27 @@ export const Navbar: React.FC = () => {
     label: <NavLink to={link.route}>{link.name}</NavLink>,
     key: link.route,
     icon: link.icon
-  }))
+  }));
+
+  const screens = useBreakpoint();
+
+  if (!isAuthenticated) {
+    return null
+  };
 
   return (
-    <nav>
-      <Title style={{ color: "#fff" }}>Menorca</Title>
-      {isAuthenticated ? (
-        <Menu mode="horizontal" theme="dark" defaultSelectedKeys={["/"]} items={items} style={{ flexGrow: 1, marginLeft: "1rem" }}>
+    <nav style={{ backgroundColor: "#f5f5f5", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
+      <Title level={4}>Menorca</Title>
+      {!screens.lg ? (
+        <FaBars style={{ fontSize: "24px", cursor: "pointer" }} />
+      ) : (
+        <Menu mode="horizontal" theme="light" defaultSelectedKeys={["/"]} items={items} style={{ marginTop: "10px", display: "flex", flexWrap: "wrap" }}>
           {navLinks.map((link) => (
             <Menu.Item key={link.route}>
               <NavLink to={link.route}>{link.name}</NavLink>
             </Menu.Item>
           ))}
         </Menu>
-      ) : (
-        <Typography.Text style={{ color: "#fff" }}>Please authenticate to access the site.</Typography.Text>
       )}
     </nav>
   )

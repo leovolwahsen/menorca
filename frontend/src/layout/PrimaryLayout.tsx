@@ -4,14 +4,14 @@ import { Navbar } from "../components/headers/Navbar";
 import { Flex } from "antd";
 
 export const PrimaryLayout: React.FC = () => {
-    const [, setIsAuthenticated] = useState(false);
+  const [, setIsAuthenticated] = useState(false);
 
   return (
-    <Flex vertical align="center">
-    <Navbar />
-    <Flex style={{ padding: "20px" }}>
-      <Outlet context={{ setIsAuthenticated }} />
+    <Flex vertical>
+      <Navbar />
+      <Flex style={{ width: "100%", padding: "20px", flexGrow: 1 }}>
+        <Outlet context={{ setIsAuthenticated }} />
+      </Flex>
     </Flex>
-  </Flex>
   )
 }
