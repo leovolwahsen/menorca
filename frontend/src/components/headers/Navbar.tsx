@@ -36,7 +36,7 @@ export const Navbar: React.FC = () => {
 
   if (!isAuthenticated) {
     return null
-  };
+  }
 
   return (
     <nav style={{ backgroundColor: "#f5f5f5", boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)" }}>
