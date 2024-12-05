@@ -11,5 +11,5 @@ export interface IAuthContextProps {
 }
 
 export interface IPasswordValidationResponse {
-    role: string;
+    role: "admin" | "visitor" | "visitors";
 }

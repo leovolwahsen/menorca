@@ -11,6 +11,18 @@ import 'react-toastify/dist/ReactToastify.css';
 const { Title } = Typography;
 const { Option } = Select;
 
+// Error handling utility
+const handleError = (err: unknown): Error | string => {
+  if (err instanceof Error) {
+    return err;
+  }
+  return "An unknown error occurred.";
+};
+
+const extractErrorMessage = (err: Error | string | null): string => {
+  return err instanceof Error ? err.message : err || "";
+};
+
 export const Home: React.FC = () => {
   const axiosInstance = useAxios();
   const [password, setPassword] = useState<string>("");
@@ -39,9 +51,10 @@ export const Home: React.FC = () => {
         //   localStorage.removeItem("userRole")
         // }, 3000)
       }
-    } catch (err: any) {
-      toast.error("Failed to login!")
-      setError(err.response?.data?.error || "An error occurred");
+    } catch (err: unknown) {
+      const processedError = handleError(err);
+      toast.error(extractErrorMessage(processedError));
+      setError(extractErrorMessage(processedError));
     }
   };
 
@@ -52,9 +65,10 @@ export const Home: React.FC = () => {
         toast.success("You have registered successfully!", { autoClose: false });
         form.resetFields();
       }
-    } catch (err: any) {
-      toast.error("Failed to register, please check your Input!");
-      console.error(err);
+    } catch (err: unknown) {
+      const processedError = handleError(err);
+      toast.error("Failed to register, please check your input!");
+      console.error(extractErrorMessage(processedError));
     }
   };
 
