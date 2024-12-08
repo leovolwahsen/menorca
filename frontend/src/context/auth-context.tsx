@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { IAuthContextProps, IAuthProviderProps } from "../types/authentication";
 
 const AuthContext = createContext<IAuthContextProps | undefined>(undefined);
@@ -7,14 +7,21 @@ export const AuthProvider: React.FC<IAuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [userRole, setUserRole] = useState<string | null>(null);
 
+  useEffect(() => {
+    const savedRole = localStorage.getItem("userRole");
+    if (savedRole) {
+      setAuthState(true, savedRole);
+    }
+  }, []);
+
   const setAuthState = (auth: boolean, role: string | null) => {
     setIsAuthenticated(auth);
     setUserRole(role);
-    // if (auth && role) {
-    //   localStorage.setItem("userRole", role);
-    // } else {
-    //   localStorage.removeItem("userRole");
-    // }
+    if (auth && role) {
+      localStorage.setItem("userRole", role);
+    } else {
+      localStorage.removeItem("userRole");
+    }
   };
 
   return (
@@ -31,4 +38,4 @@ export const useAuth = (): IAuthContextProps => {
     throw new Error("useAuth is not used in AuthProvider")
   }
   return context;
-}
+};
