@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useMemo } from "react";
-import dotenv from "dotenv"
-
-dotenv.config();
 
 export const useAxios = () => {
     const axiosInstance = useMemo(() => {
         const instance = axios.create({
-            baseURL: "https://menorca-backend.onrender.com/"
+            baseURL: import.meta.env.VITE_BACKEND_URL,
         });
 
         // request Interceptors
