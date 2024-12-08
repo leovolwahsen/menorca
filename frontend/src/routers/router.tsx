@@ -7,6 +7,7 @@ import { Program } from "../pages/Program";
 import { RestaurantsAndActivities } from "../pages/RestaurantsAndActivities";
 import { Travel } from "../pages/Travel";
 import { Dashboard } from "../pages/Dashboard";
+import React from "react";
 // import { useAuth } from "../context/auth-context";
 // import { Typography } from "antd";
 

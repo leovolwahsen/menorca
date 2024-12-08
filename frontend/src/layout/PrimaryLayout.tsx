@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar } from "../components/headers/Navbar";
 import { Flex } from "antd";
+import React from "react";
 
 
 export const PrimaryLayout: React.FC = () => {

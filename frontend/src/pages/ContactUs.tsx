@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAxios } from "../data/useAxios";
 import { IContactUs } from "../types/contactUs"
 import { Flex, Space, Typography } from "antd";
+import React from "react";
 
 const { Title, Text } = Typography;
 

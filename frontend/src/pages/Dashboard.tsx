@@ -2,6 +2,7 @@ import { Flex, Table, TableColumnsType, Typography } from "antd";
 import { useAxios } from "../data/useAxios";
 import { useEffect, useState } from "react";
 import { IAttendeeFormValues, IAttendeesTableRow } from "../types/attendee";
+import React from "react";
 
 const { Title } = Typography;
 
