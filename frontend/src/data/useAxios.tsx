@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { useMemo } from "react";
 
-export const useAxios = () => {
+export const useAxios = (): AxiosInstance => {
     const axiosInstance = useMemo(() => {
         const instance = axios.create({
             baseURL: import.meta.env.VITE_BACKEND_URL,
