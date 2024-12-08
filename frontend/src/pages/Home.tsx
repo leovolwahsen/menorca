@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Button, Form, Input, Typography, Select, Flex } from "antd";
+import React from "react";
+import { Button, Form, Input, Typography, Select } from "antd";
 import { useAxios } from "../data/useAxios";
-import { FaLock, FaLockOpen } from "react-icons/fa";
-import { useAuth } from "../context/auth-context";
-import { IPasswordValidationResponse } from "../types/authentication";
+// import { FaLock, FaLockOpen } from "react-icons/fa";
+// import { useAuth } from "../context/auth-context";
+// import { IPasswordValidationResponse } from "../types/authentication";
 import { IAttendeeFormValues } from "../types/attendee";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,38 +25,38 @@ const extractErrorMessage = (err: Error | string | null): string => {
 
 export const Home: React.FC = () => {
   const axiosInstance = useAxios();
-  const [password, setPassword] = useState<string>("");
-  const [error, setError] = useState("");
-  const [isUnlocking, setIsUnlocking] = useState<boolean>(false);
-  const { isAuthenticated, setAuthState, userRole } = useAuth();
+  // const [password, setPassword] = useState<string>("");
+  // const [error, setError] = useState("");
+  // const [isUnlocking, setIsUnlocking] = useState<boolean>(false);
+  // const { isAuthenticated, setAuthState, userRole } = useAuth();
 
   const [form] = Form.useForm();
 
-  const handlePasswordSubmit = async () => {
-    try {
-      const response = await axiosInstance.post<IPasswordValidationResponse>("/validate-password", { password });
+  // const handlePasswordSubmit = async () => {
+  //   try {
+  //     const response = await axiosInstance.post<IPasswordValidationResponse>("/validate-password", { password });
 
-      if (response.status === 200) {
-        const role = response.data.role;
-        setAuthState(true, role);
-        localStorage.setItem("isAuthenticated", "true");
-        localStorage.setItem("userRole", role);
-        setIsUnlocking(true);
+  //     if (response.status === 200) {
+  //       const role = response.data.role;
+  //       setAuthState(true, role);
+  //       localStorage.setItem("isAuthenticated", "true");
+  //       localStorage.setItem("userRole", role);
+  //       setIsUnlocking(true);
 
-        // This commented out code would be a way to automatically be loged-out after time ended
-        // setTimeout(() => {
-        //   setIsAuthenticated(true);
-        //   setIsUnlocking(false);
-        //   localStorage.removeItem("isAuthenticated");
-        //   localStorage.removeItem("userRole")
-        // }, 3000)
-      }
-    } catch (err: unknown) {
-      const processedError = handleError(err);
-      toast.error(extractErrorMessage(processedError));
-      setError(extractErrorMessage(processedError));
-    }
-  };
+  //       // This commented out code would be a way to automatically be loged-out after time ended
+  //       // setTimeout(() => {
+  //       //   setIsAuthenticated(true);
+  //       //   setIsUnlocking(false);
+  //       //   localStorage.removeItem("isAuthenticated");
+  //       //   localStorage.removeItem("userRole")
+  //       // }, 3000)
+  //     }
+  //   } catch (err: unknown) {
+  //     const processedError = handleError(err);
+  //     toast.error(extractErrorMessage(processedError));
+  //     setError(extractErrorMessage(processedError));
+  //   }
+  // };
 
   const handleAttendeeSubmit = async (values: IAttendeeFormValues) => {
     try {
@@ -72,58 +72,60 @@ export const Home: React.FC = () => {
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <Flex vertical justify="center" align="center" style={{ width: "100vw", height: "90vh" }}>
-        <ToastContainer />
-        <Form
-          layout="vertical"
-          onFinish={handlePasswordSubmit}
-          style={{
-            width: 300,
-            padding: 20,
-            border: "1px solid #ddd",
-            borderRadius: 10,
-            marginTop: 20,
-          }}
-        >
-          <Flex vertical align="center" justify="center" gap="5rem" style={{ fontSize: 35, transition: "transform 0.5s, color 0.5s, opacity 0.8s", opacity: isUnlocking ? 0 : 1, width: "100%", height: "30%" }}>
-            {isUnlocking ? <FaLockOpen /> : <FaLock />}
-          </Flex>
-          <Form.Item
-            name="username"
-            label="Username (for autofill compatibility)"
-            initialValue="default-username"
-            style={{ display: "none" }}
-          >
-            <Input type="text" autoComplete="username" />
-          </Form.Item>
-          <Form.Item
-            label="Password"
-            validateStatus={error ? "error" : ""}
-            help={error}
-          >
-            <Input.Password
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              autoComplete="current-password"
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit" block>
-              Submit
-            </Button>
-          </Form.Item>
-        </Form>
-      </Flex>
-    );
-  }
+  // if (!isAuthenticated) {
+  //   return (
+  //     <Flex vertical justify="center" align="center" style={{ width: "100vw", height: "90vh" }}>
+  //       <ToastContainer />
+  //       <Form
+  //         layout="vertical"
+  //         onFinish={handlePasswordSubmit}
+  //         style={{
+  //           width: 300,
+  //           padding: 20,
+  //           border: "1px solid #ddd",
+  //           borderRadius: 10,
+  //           marginTop: 20,
+  //         }}
+  //       >
+  //         <Flex vertical align="center" justify="center" gap="5rem" style={{ fontSize: 35, transition: "transform 0.5s, color 0.5s, opacity 0.8s", opacity: isUnlocking ? 0 : 1, width: "100%", height: "30%" }}>
+  //           {isUnlocking ? <FaLockOpen /> : <FaLock />}
+  //         </Flex>
+  //         <Form.Item
+  //           name="username"
+  //           label="Username (for autofill compatibility)"
+  //           initialValue="default-username"
+  //           style={{ display: "none" }}
+  //         >
+  //           <Input type="text" autoComplete="username" />
+  //         </Form.Item>
+  //         <Form.Item
+  //           label="Password"
+  //           validateStatus={error ? "error" : ""}
+  //           help={error}
+  //         >
+  //           <Input.Password
+  //             value={password}
+  //             onChange={(e) => setPassword(e.target.value)}
+  //             placeholder="Enter your password"
+  //             autoComplete="current-password"
+  //           />
+  //         </Form.Item>
+  //         <Form.Item>
+  //           <Button type="primary" htmlType="submit" block>
+  //             Submit
+  //           </Button>
+  //         </Form.Item>
+  //       </Form>
+  //     </Flex>
+  //   );
+  // }
 
   return (
     <div style={{ padding: 20 }}>
       <ToastContainer />
-      <Title level={3}>Welcome {userRole === "admin" ? "Admin" : "Visitor"} to the Website!</Title>
+      <Title level={3}>Welcome 
+        {/* {userRole === "admin" ? "Admin" : "Visitor"} */}
+         to the Website!</Title>
       <Form
         form={form}
         layout="vertical"
