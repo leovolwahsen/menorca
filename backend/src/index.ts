@@ -5,7 +5,6 @@ import { connectToDatabase } from "./config/database";
 import { attendeeRouter } from "./api/attendees/routers";
 import { authenticationRouter } from "./api/authentication/routers";
 import { contactUsRouter } from "./api/contactUs/routers";
-import { imagesRouter } from "./api/images/routers";
 
 dotenv.config();
 
@@ -24,7 +23,6 @@ connectToDatabase().then(() => {
     app.use("/", attendeeRouter);
     app.use("/", authenticationRouter);
     app.use("/", contactUsRouter);
-    app.use("/", imagesRouter);
 
     app.get("/", (req: Request, res: Response) => {
         res.send("Welcome to the backend server of menorca!");
